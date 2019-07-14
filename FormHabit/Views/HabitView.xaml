@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="FormHabit.Views.HabitView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FormHabit.Views"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:vm="using:FormHabit.ViewModels"
+    xmlns:model="using:FormHabit.Models"
+    xmlns:microcharts="using:Microcharts.Uwp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <vm:HabitViewModel/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView x:Name="MasterView" ItemsSource="{x:Bind ViewModel.AllEvents, Mode=OneWay}"
+                  SelectionMode="Single" SelectionChanged="MasterView_SelectionChanged">
+            <ListView.Background>
+                <AcrylicBrush BackgroundSource="HostBackdrop"
+                                  TintColor="Black"
+                                  TintOpacity="0.6"
+                                  FallbackColor="Black"/>
+
+            </ListView.Background>
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Event">
+                    <Grid Margin="15" HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="{x:Bind title}" HorizontalAlignment="Center"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}"
+                                   Margin="0, 0, 0, 10"/>
+
+                        <ProgressBar Value="{x:Bind percentage}" HorizontalAlignment="Center" CornerRadius="8" Height="20" Width="180"
+                                     Grid.Row="1"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Frame x:Name="MDFrame" Grid.Column="1">
+            <Frame.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Frame.Transitions>
+        </Frame>
+    </Grid>
+</Page>
